@@ -2,72 +2,69 @@
 
 @layer base {
   :root {
-    --cosmic-bg: #060813;
-    --cosmic-surface: rgba(15, 23, 42, 0.55);
-    --cosmic-border: rgba(255, 255, 255, 0.1);
-    --cosmic-glow-cyan: rgba(0, 212, 255, 0.4);
-    --cosmic-glow-purple: rgba(168, 85, 247, 0.4);
+    --bg-canvas: #0c0d0e;
+    --bg-surface: #14161a;
+    --bg-surface-elevated: #1a1d24;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-active: rgba(255, 255, 255, 0.16);
+    --accent-orange: #f54e00;
+    --accent-cyan: #00d4ff;
+    --text-primary: #ededec;
+    --text-secondary: #8b8e96;
+    --text-muted: #555861;
   }
 
   body {
-    background-color: #060813;
-    color: #f8fafc;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
     overflow-x: hidden;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 }
 
-/* Glassmorphism Classes */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.65);
+/* Precision Glass Panels */
+.cursor-glass {
+  background: rgba(18, 20, 24, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-.glass-panel-subtle {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.cursor-glass-hover {
+  transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1.0);
 }
 
-.glass-panel-glow {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 212, 255, 0.2);
-  box-shadow: 0 0 25px rgba(0, 212, 255, 0.15);
+.cursor-glass-hover:hover {
+  background: rgba(26, 29, 36, 0.85);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
-/* Ambient cosmic nebulae */
-.cosmic-gradient-text {
-  background: linear-gradient(135deg, #ffffff 20%, #00d4ff 70%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.cursor-glass-active {
+  background: rgba(30, 34, 42, 0.9);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 20px 40px -15px rgba(0, 0, 0, 0.6);
 }
 
-.cosmic-gradient-cyan {
-  background: linear-gradient(135deg, #00d4ff 0%, #3b82f6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Subtle code typography */
+.font-mono-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #060813;
+  background: #0c0d0e;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 9999px;
+  background: #252830;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 212, 255, 0.4);
+  background: #3a3f4d;
 }
