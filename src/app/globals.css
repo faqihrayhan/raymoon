@@ -1,48 +1,59 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --background: #0c0d0e;
-  --foreground: #ededec;
+@layer base {
+  :root {
+    --bg-canvas: #0c0d0e;
+    --bg-surface: #14161a;
+    --bg-surface-elevated: #1a1d24;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-active: rgba(255, 255, 255, 0.16);
+    --accent-orange: #f54e00;
+    --accent-cyan: #00d4ff;
+    --text-primary: #ededec;
+    --text-secondary: #8b8e96;
+    --text-muted: #555861;
+  }
+
+  body {
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Precision Cursor Dark Glass (Ringan & Optimal) */
+/* Precision Glass Panels */
 .cursor-glass {
   background: rgba(18, 20, 24, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .cursor-glass-hover {
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1.0);
 }
 
 .cursor-glass-hover:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  background: rgba(26, 29, 36, 0.85);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 .cursor-glass-active {
-  background: rgba(22, 25, 31, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(30, 34, 42, 0.9);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 20px 40px -15px rgba(0, 0, 0, 0.6);
 }
 
-/* Custom Minimalist Scrollbar */
+/* Subtle code typography */
+.font-mono-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -50,10 +61,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #232730;
-  border-radius: 9999px;
+  background: #252830;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #373c47;
+  background: #3a3f4d;
 }
