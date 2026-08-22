@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
 
 interface BeamsBackgroundProps {
   className?: string;
@@ -17,151 +16,97 @@ interface Beam {
   speed: number;
   opacity: number;
   hue: number;
-  pulse: number;
-  pulseSpeed: number;
-}
-
-function createBeam(width: number, height: number): Beam {
-  const angle = -35 + Math.random() * 10;
-  // Theme palette: Orange (24-32) & Warm Amber/Cyan (195-215)
-  const isOrange = Math.random() > 0.4;
-  const hue = isOrange ? 24 + Math.random() * 14 : 195 + Math.random() * 20;
-
-  return {
-    x: Math.random() * width * 1.5 - width * 0.25,
-    y: Math.random() * height * 1.5 - height * 0.25,
-    width: 35 + Math.random() * 65,
-    length: height * 2.2,
-    angle: angle,
-    speed: 0.4 + Math.random() * 0.8,
-    opacity: 0.1 + Math.random() * 0.15,
-    hue: hue,
-    pulse: Math.random() * Math.PI * 2,
-    pulseSpeed: 0.015 + Math.random() * 0.025,
-  };
 }
 
 export function BeamsBackground({
   className = "",
-  intensity = "medium",
+  intensity = "subtle",
 }: BeamsBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const beamsRef = useRef<Beam[]>([]);
   const animationFrameRef = useRef<number>(0);
-  const MINIMUM_BEAMS = 18;
-
-  const opacityMap = {
-    subtle: 0.6,
-    medium: 0.85,
-    strong: 1,
-  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    const updateCanvasSize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-      ctx.scale(dpr, dpr);
+    // Detect mobile or low power
+    const isMobile = window.innerWidth < 768;
+    const beamCount = isMobile ? 6 : 10; // Drastic reduction from 30+ to 6-10 beams
 
-      const totalBeams = MINIMUM_BEAMS * 1.4;
-      beamsRef.current = Array.from({ length: totalBeams }, () =>
-        createBeam(canvas.width, canvas.height)
-      );
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const updateSize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     };
 
-    updateCanvasSize();
-    window.addEventListener("resize", updateCanvasSize);
+    window.addEventListener("resize", updateSize, { passive: true });
 
-    function resetBeam(beam: Beam, index: number, totalBeams: number) {
-      if (!canvas) return beam;
+    // Create lightweight beams
+    const beams: Beam[] = Array.from({ length: beamCount }, (_, i) => {
+      const isOrange = i % 2 === 0;
+      return {
+        x: Math.random() * width * 1.2 - width * 0.1,
+        y: Math.random() * height * 1.2,
+        width: isMobile ? 40 + Math.random() * 40 : 60 + Math.random() * 80,
+        length: height * 1.8,
+        angle: -32,
+        speed: 0.25 + Math.random() * 0.35, // Smooth slow speed
+        opacity: isMobile ? 0.08 + Math.random() * 0.08 : 0.12 + Math.random() * 0.1,
+        hue: isOrange ? 28 : 200,
+      };
+    });
 
-      const column = index % 3;
-      const spacing = canvas.width / 3;
+    const angleRad = (-32 * Math.PI) / 180;
 
-      beam.y = canvas.height + 100;
-      beam.x =
-        column * spacing +
-        spacing / 2 +
-        (Math.random() - 0.5) * spacing * 0.5;
-      beam.width = 90 + Math.random() * 90;
-      beam.speed = 0.35 + Math.random() * 0.35;
-      
-      const isOrange = index % 2 === 0;
-      beam.hue = isOrange ? 24 + (index % 12) : 195 + (index % 15);
-      beam.opacity = 0.15 + Math.random() * 0.1;
-      return beam;
-    }
+    let lastDraw = 0;
+    const fpsInterval = 1000 / 45; // Cap at 45fps to save GPU/battery
 
-    function drawBeam(ctx: CanvasRenderingContext2D, beam: Beam) {
-      ctx.save();
-      ctx.translate(beam.x, beam.y);
-      ctx.rotate((beam.angle * Math.PI) / 180);
+    const render = (currentTime: number) => {
+      animationFrameRef.current = requestAnimationFrame(render);
 
-      // Calculate pulsing opacity
-      const pulsingOpacity =
-        beam.opacity *
-        (0.8 + Math.sin(beam.pulse) * 0.2) *
-        opacityMap[intensity];
+      const elapsed = currentTime - lastDraw;
+      if (elapsed < fpsInterval) return;
+      lastDraw = currentTime - (elapsed % fpsInterval);
 
-      const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
+      ctx.clearRect(0, 0, width, height);
 
-      gradient.addColorStop(0, `hsla(${beam.hue}, 90%, 55%, 0)`);
-      gradient.addColorStop(
-        0.1,
-        `hsla(${beam.hue}, 90%, 55%, ${pulsingOpacity * 0.4})`
-      );
-      gradient.addColorStop(
-        0.4,
-        `hsla(${beam.hue}, 90%, 55%, ${pulsingOpacity})`
-      );
-      gradient.addColorStop(
-        0.6,
-        `hsla(${beam.hue}, 90%, 55%, ${pulsingOpacity})`
-      );
-      gradient.addColorStop(
-        0.9,
-        `hsla(${beam.hue}, 90%, 55%, ${pulsingOpacity * 0.4})`
-      );
-      gradient.addColorStop(1, `hsla(${beam.hue}, 90%, 55%, 0)`);
-
-      ctx.fillStyle = gradient;
-      ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
-      ctx.restore();
-    }
-
-    function animate() {
-      if (!canvas || !ctx) return;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.filter = "blur(35px)";
-
-      const totalBeams = beamsRef.current.length;
-      beamsRef.current.forEach((beam, index) => {
+      // Lightweight gradient rendering
+      for (let i = 0; i < beams.length; i++) {
+        const beam = beams[i];
         beam.y -= beam.speed;
-        beam.pulse += beam.pulseSpeed;
 
-        if (beam.y + beam.length < -100) {
-          resetBeam(beam, index, totalBeams);
+        if (beam.y + beam.length < -50) {
+          beam.y = height + 50;
+          beam.x = Math.random() * width * 1.2 - width * 0.1;
         }
 
-        drawBeam(ctx, beam);
-      });
+        ctx.save();
+        ctx.translate(beam.x, beam.y);
+        ctx.rotate(angleRad);
 
-      animationFrameRef.current = requestAnimationFrame(animate);
-    }
+        const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
+        gradient.addColorStop(0, `hsla(${beam.hue}, 85%, 55%, 0)`);
+        gradient.addColorStop(0.2, `hsla(${beam.hue}, 85%, 55%, ${beam.opacity * 0.6})`);
+        gradient.addColorStop(0.5, `hsla(${beam.hue}, 85%, 55%, ${beam.opacity})`);
+        gradient.addColorStop(0.8, `hsla(${beam.hue}, 85%, 55%, ${beam.opacity * 0.6})`);
+        gradient.addColorStop(1, `hsla(${beam.hue}, 85%, 55%, 0)`);
 
-    animate();
+        ctx.fillStyle = gradient;
+        ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
+        ctx.restore();
+      }
+    };
+
+    animationFrameRef.current = requestAnimationFrame(render);
 
     return () => {
-      window.removeEventListener("resize", updateCanvasSize);
+      window.removeEventListener("resize", updateSize);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
@@ -170,24 +115,14 @@ export function BeamsBackground({
 
   return (
     <div className={`fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#0c0d0e] ${className}`}>
+      {/* Canvas with GPU-accelerated CSS blur */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-        style={{ filter: "blur(18px)" }}
+        className="absolute inset-0 w-full h-full transform-gpu blur-[20px]"
       />
 
-      {/* Ambient subtle vignette */}
-      <motion.div
-        className="absolute inset-0 bg-[#0c0d0e]/60"
-        animate={{
-          opacity: [0.55, 0.65, 0.55],
-        }}
-        transition={{
-          duration: 8,
-          ease: "easeInOut",
-          repeat: Number.POSITIVE_INFINITY,
-        }}
-      />
+      {/* Lightweight Static Vignette */}
+      <div className="absolute inset-0 bg-[#0c0d0e]/50 pointer-events-none" />
     </div>
   );
 }
