@@ -24,24 +24,24 @@ const innerList = TECH_STACK.slice(0, 6);
 const outerList = TECH_STACK.slice(6);
 
 const orbitalConfigs: SkillConfig[] = [
-  // Inner Orbit (Radius ~120px)
+  // Inner Orbit (Radius ~120px) — Kecepatan diperlambat (0.35)
   ...innerList.map((tech, idx) => ({
     id: tech.id,
     orbitRadius: 120,
     size: 42,
-    speed: 0.7,
+    speed: 0.35,
     phaseShift: (idx * 2 * Math.PI) / innerList.length,
     glowColor: (idx % 2 === 0 ? "orange" : "cyan") as GlowColor,
     label: tech.name,
     deviconUrl: tech.deviconUrl,
     item: tech,
   })),
-  // Outer Orbit (Radius ~200px)
+  // Outer Orbit (Radius ~200px) — Kecepatan diperlambat (-0.22)
   ...outerList.map((tech, idx) => ({
     id: tech.id,
     orbitRadius: 200,
     size: 46,
-    speed: -0.45,
+    speed: -0.22,
     phaseShift: (idx * 2 * Math.PI) / outerList.length,
     glowColor: (idx % 2 === 0 ? "purple" : "cyan") as GlowColor,
     label: tech.name,
