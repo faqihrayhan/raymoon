@@ -32,9 +32,9 @@ export interface ExperienceItem {
 export const PROFILE_DATA = {
   name: "Rayhan",
   handle: "raymoon",
-  headline: "Autonomous AI Agent · Smart Contracts · Automation · Web Developer",
-  subheadline: "Shipping autonomous AI agents, deploying & testing smart contracts on Arc testnet with Foundry, and building resilient fullstack web and automation systems.",
-  about: "I'm a developer and designer passionate about building decentralized applications, autonomous AI workflows, robust web platforms, and refined user interfaces.",
+  headline: "Fullstack Developer · Web3 Developer",
+  subheadline: "Crafting modern full-stack web applications, decentralized protocols, smart contracts, and responsive digital interfaces with rigorous end-to-end engineering.",
+  about: "I'm a Fullstack & Web3 Developer specializing in building modern web applications, scalable APIs, smart contracts, and refined UI/UX design systems.",
   socials: {
     instagram: "https://www.instagram.com/fqhray_/",
     linkedin: "https://www.linkedin.com/in/mfaqihraihan/",
@@ -115,7 +115,7 @@ export const TECH_STACK: TechItem[] = [
     category: "backend",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
     color: "#3776AB",
-    description: "Core language for AI agents, automation pipelines, and async backend services.",
+    description: "Core language for automation pipelines, scripts, and async backend services.",
   },
   {
     id: "solidity",
@@ -155,7 +155,7 @@ export const TECH_STACK: TechItem[] = [
     category: "tools",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
     color: "#2496ED",
-    description: "Isolated containerization for autonomous bots, background daemons, and microservices.",
+    description: "Isolated containerization for background daemons, microservices, and deployments.",
   },
   {
     id: "git",
@@ -177,56 +177,43 @@ export const TECH_STACK: TechItem[] = [
 
 export const EXPERIENCES: ExperienceItem[] = [
   {
-    id: "autonomous-ai-solana",
-    role: "Autonomous AI Agent Architect",
-    company: "AI Automation Ecosystem",
-    period: "2026 — Present",
-    description: "Architecting and deploying autonomous AI agents that run verifiable reasoning loops and execute automated multi-step operations.",
-    highlights: [
-      "Built resilient asynchronous execution cycles with sub-second response times.",
-      "Integrated autonomous task management with strict safety and state guardrails.",
-      "Automated real-time event monitoring and reactive interaction logic."
-    ],
-    tags: ["Python", "Autonomous Agents", "AsyncIO", "Automation", "AI"],
-  },
-  {
-    id: "smart-contracts-arc",
-    role: "Smart Contract Engineer",
-    company: "Arc Testnet & Foundry",
-    period: "2026",
-    description: "Developing, testing, and auditing smart contracts on Arc Testnet using the Foundry framework with rigorous invariant tests.",
-    highlights: [
-      "Wrote comprehensive unit and fuzz test suites with >95% coverage.",
-      "Performed gas profiling and contract optimization routines.",
-      "Deployed and verified contracts on Arc Testnet."
-    ],
-    tags: ["Solidity", "Foundry", "Arc Testnet", "Security Audit", "EVM"],
-  },
-  {
-    id: "automation-infrastructure",
-    role: "Automation & Infrastructure Developer",
-    company: "Personal Homelab & Operations",
-    period: "2025 — 2026",
-    description: "Engineered scalable Python automation systems, background process runners, and Telegram streaming bots.",
-    highlights: [
-      "Designed event-driven bot architectures with 99.9% uptime on WSL homelab.",
-      "Created automated media transcoding and video dispatch pipelines.",
-      "Implemented modular task queues and cron watchers."
-    ],
-    tags: ["Python", "FastAPI", "Docker", "Telegram API", "Linux"],
-  },
-  {
-    id: "fullstack-web3",
-    role: "Web & Frontend Developer",
-    company: "Client & Open Source Projects",
+    id: "fullstack-web-eng",
+    role: "Fullstack Developer",
+    company: "Freelance & Open Source",
     period: "2024 — Present",
-    description: "Building modern responsive web applications, accounting portals, and branded SaaS platforms with precision UI/UX design.",
+    description: "Developing modern full-stack web applications, scalable backend APIs, responsive frontends with Next.js/React, and custom UI design systems.",
     highlights: [
-      "Shipped Nota dApp (Web3 invoice accounting with Next.js, i18n, Supabase RLS).",
-      "Delivered custom Next.js web applications with clean design systems in Figma & Canva.",
-      "Engineered type-safe API layers and internationalization architectures."
+      "Built performant web platforms with type-safe APIs and internationalization (i18n).",
+      "Designed clean UI/UX design systems and component libraries in Figma & Canva.",
+      "Delivered responsive web interfaces optimized for fast loading and mobile experience."
     ],
-    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Figma", "Canva"],
+    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "Figma"],
+  },
+  {
+    id: "web3-smart-contracts",
+    role: "Web3 Developer",
+    company: "Web3 Ecosystem",
+    period: "2025 — Present",
+    description: "Engineering decentralized dApps, EVM smart contracts, and Web3 integrations with rigorous testing and secure backend architectures.",
+    highlights: [
+      "Built Nota dApp — Web3 invoice accounting with Supabase RLS and token settlements.",
+      "Developed and fuzz-tested EVM smart contracts on testnets using Foundry.",
+      "Integrated decentralized wallets, QR payment payloads, and smart contract ABIs."
+    ],
+    tags: ["Solidity", "Foundry", "Web3", "Next.js", "Supabase RLS", "EVM"],
+  },
+  {
+    id: "python-backend-automation",
+    role: "Backend & Automation Developer",
+    company: "Homelab & Internal Tools",
+    period: "2025 — 2026",
+    description: "Building asynchronous backend services, Python automation scripts, Dockerized daemons, and bot integrations.",
+    highlights: [
+      "Engineered async APIs and Telegram bots with high uptime on Linux homelab.",
+      "Automated content workflows, data processing, and background schedulers.",
+      "Deployed containerized services with Docker and continuous workflows."
+    ],
+    tags: ["Python", "FastAPI", "Docker", "PostgreSQL", "Linux"],
   },
 ];
 
@@ -234,20 +221,20 @@ export const PROJECTS: ProjectItem[] = [
   {
     id: "nota-dapp",
     title: "Nota — Web3 Invoice & Accounting dApp",
-    category: "Full Stack dApp",
+    category: "Web3 & Fullstack",
     description: "Decentralized invoicing and merchant settlement dApp with multi-language i18n, Supabase RLS, dynamic QR payloads, and ERC20 token settlement.",
-    tags: ["Next.js", "TypeScript", "Supabase RLS", "ERC20", "Tailwind"],
+    tags: ["Next.js", "TypeScript", "Supabase RLS", "Solidity", "Tailwind"],
     image: "/images/projects/nota-app.png",
     stats: [
       { label: "Security", value: "Supabase RLS" },
-      { label: "Type-Safety", value: "100% Strict TS" },
+      { label: "Architecture", value: "100% Strict TS" },
     ],
     github: "https://github.com/faqihrayhan/nota",
   },
   {
     id: "arc-contracts",
     title: "Arc Testnet Smart Contracts & Foundry Suite",
-    category: "Smart Contracts & Audit",
+    category: "Smart Contracts & Web3",
     description: "Robust EVM smart contract system tested and deployed on Arc Testnet using Foundry fuzzing harnesses and gas optimization protocols.",
     tags: ["Solidity", "Foundry", "Arc Testnet", "EVM"],
     image: "/images/projects/arc-contracts.png",
@@ -258,29 +245,29 @@ export const PROJECTS: ProjectItem[] = [
     github: "https://github.com/faqihrayhan",
   },
   {
+    id: "its-outpost",
+    title: "OUTPOST Platform & SaaS Hub",
+    category: "Fullstack & UI Design",
+    description: "Creative technology brand portal and SaaS interconnect hub built with Next.js App Router, custom design tokens, and modular components.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Figma", "Canva"],
+    image: "/images/projects/outpost.png",
+    stats: [
+      { label: "Framework", value: "Next.js App Router" },
+      { label: "Design", value: "Figma Tokens" },
+    ],
+    github: "https://github.com/faqihrayhan/its-outpost",
+  },
+  {
     id: "telegram-video-bot",
-    title: "Python Media Streaming & Automation Bot",
-    category: "Automation & Daemons",
-    description: "High-throughput asynchronous media processing bot utilizing FastAPI, Telegram MTProto API, Docker containerization, and custom queue workers.",
-    tags: ["Python", "FastAPI", "Docker", "Telegram API"],
+    title: "Python Media Automation & API Service",
+    category: "Backend & Automation",
+    description: "High-throughput asynchronous media processing service utilizing FastAPI, Docker containerization, and custom queue workers.",
+    tags: ["Python", "FastAPI", "Docker", "Linux"],
     image: "/images/projects/python-automation.png",
     stats: [
       { label: "Runtime", value: "AsyncIO" },
       { label: "Deployment", value: "Docker / Linux" },
     ],
     github: "https://github.com/faqihrayhan/telegram-video-bot",
-  },
-  {
-    id: "its-outpost",
-    title: "OUTPOST Platform & SaaS Hub",
-    category: "Web Engineering & Design",
-    description: "Creative technology brand portal and SaaS interconnect hub built with Next.js App Router, design tokens, and modular components.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Figma", "Design Tokens"],
-    image: "/images/projects/outpost.png",
-    stats: [
-      { label: "Architecture", value: "App Router" },
-      { label: "Status", value: "Production" },
-    ],
-    github: "https://github.com/faqihrayhan/its-outpost",
   },
 ];
