@@ -6,10 +6,15 @@ import { ExperienceSection } from "@/components/sections/ExperienceSection";
 import { ProjectSection } from "@/components/sections/ProjectSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { Footer } from "@/components/sections/Footer";
+import { StaticBeamsBackground } from "@/components/ui/StaticBeamsBackground";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#0c0d0e] relative selection:bg-orange-500/30 selection:text-orange-200">
+    <div className="flex flex-col min-h-screen bg-[#0c0d0e] relative selection:bg-orange-500/30 selection:text-orange-200 overflow-x-hidden">
+      {/* Zero-Overhead Static SVG Beams Background */}
+      <StaticBeamsBackground />
+
+      {/* Main Content Sections */}
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
         <Hero />
