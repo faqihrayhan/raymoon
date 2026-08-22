@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "about": "Tentang",
+    "stack": "Tech Stack",
+    "experience": "Pengalaman",
+    "stats": "Statistik",
+    "contact": "Kontak",
+    "available": "Siap Kolaborasi"
+  },
+  "hero": {
+    "greeting": "HALO, SAYA RAYHAN",
+    "role": "Autonomous AI Agent · Smart Contracts · Web Developer",
+    "description": "Membangun AI agent otonom yang tereksekusi on-chain di Solana, mendeploy & mengaudit smart contract dengan Foundry, dan merancang sistem otomatisasi Python.",
+    "ctaExplore": "Jelajahi Portofolio",
+    "ctaContact": "Hubungi Saya",
+    "badgeSolana": "Solana On-Chain",
+    "badgeFoundry": "Arc & Foundry",
+    "badgeAutomation": "Bot Otomatisasi"
+  },
+  "stack": {
+    "title": "Tech Stack Orbital",
+    "subtitle": "Bahasa inti, ekosistem Web3, dan sistem infrastruktur dalam orbit sirkular.",
+    "interactiveHint": "Arahkan kursor atau klik node untuk melihat detail kapabilitas",
+    "centerTitle": "CORE STACK",
+    "centerSubtitle": "Full Lifecycle"
+  },
+  "experience": {
+    "title": "Proyek Unggulan & Pengalaman",
+    "subtitle": "Linimasa interaktif sistem produksi, agent on-chain, dan aplikasi terdesentralisasi.",
+    "zoomHint": "Geser atau gunakan navigasi untuk menelusuri log proyek"
+  },
+  "stats": {
+    "title": "Metrik GitHub & Aktivitas",
+    "subtitle": "Snapshot aktivitas realtime dari kontribusi open-source, commit, dan streak."
+  },
+  "contact": {
+    "title": "Mulai Komunikasi",
+    "subtitle": "Mari bangun dApp Web3, agent otonom, atau sistem web berperforma tinggi bersama.",
+    "ctaEmail": "Kirim Pesan",
+    "socialsTitle": "Kanal Langsung"
+  },
+  "footer": {
+    "tagline": "Dirancang dengan Cosmic Glass Theme. Dibuat untuk performa tinggi & masa depan terdesentralisasi.",
+    "rights": "Semua sistem beroperasi normal."
+  }
+}

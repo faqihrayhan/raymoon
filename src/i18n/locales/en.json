@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "about": "About",
+    "stack": "Tech Stack",
+    "experience": "Experience",
+    "stats": "Stats",
+    "contact": "Contact",
+    "available": "Available for Work"
+  },
+  "hero": {
+    "greeting": "HELLO, I'M RAYHAN",
+    "role": "Autonomous AI Agent · Smart Contracts · Web Developer",
+    "description": "Shipping autonomous AI agents executing fully on-chain on Solana, deploying & auditing smart contracts with Foundry, and building resilient automation systems.",
+    "ctaExplore": "Explore Portfolio",
+    "ctaContact": "Get in Touch",
+    "badgeSolana": "Solana On-Chain",
+    "badgeFoundry": "Arc & Foundry",
+    "badgeAutomation": "Automation Bots"
+  },
+  "stack": {
+    "title": "Orbital Tech Stack",
+    "subtitle": "Core languages, Web3 environments, and infrastructure systems in constant orbit.",
+    "interactiveHint": "Hover or click on any node to reveal capability details",
+    "centerTitle": "CORE STACK",
+    "centerSubtitle": "Full Lifecycle"
+  },
+  "experience": {
+    "title": "Featured Projects & Experience",
+    "subtitle": "Interactive timeline of production systems, on-chain agents, and decentralized applications.",
+    "zoomHint": "Swipe or use controls to browse through mission logs"
+  },
+  "stats": {
+    "title": "GitHub & Activity Metrics",
+    "subtitle": "Live activity snapshot from open source commits, contributions, and streaks."
+  },
+  "contact": {
+    "title": "Initialize Transmission",
+    "subtitle": "Let's build high-performance Web3 dApps, autonomous agents, or high-scale web systems together.",
+    "ctaEmail": "Send Transmission",
+    "socialsTitle": "Direct Channels"
+  },
+  "footer": {
+    "tagline": "Architected with Cosmic Glass Theme. Built for high performance & decentralized futures.",
+    "rights": "All systems operational."
+  }
+}
