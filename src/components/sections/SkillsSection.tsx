@@ -7,8 +7,10 @@ type GlowColor = "cyan" | "purple" | "orange";
 
 interface SkillConfig {
   id: string;
-  orbitRadius: number;
-  size: number;
+  orbitRadiusDesktop: number;
+  orbitRadiusMobile: number;
+  sizeDesktop: number;
+  sizeMobile: number;
   speed: number;
   phaseShift: number;
   glowColor: GlowColor;
@@ -17,18 +19,19 @@ interface SkillConfig {
   item: TechItem;
 }
 
-// Map real skills to dual orbit rings
 // Inner Orbit: HTML, CSS, JavaScript, React, Figma, Canva
 // Outer Orbit: TypeScript, Tailwind, Python, Solidity, Node, FastAPI, Postgres, Docker, Git, Linux
 const innerList = TECH_STACK.slice(0, 6);
 const outerList = TECH_STACK.slice(6);
 
 const orbitalConfigs: SkillConfig[] = [
-  // Inner Orbit (Radius ~120px) — Kecepatan diperlambat (0.35)
+  // Inner Orbit
   ...innerList.map((tech, idx) => ({
     id: tech.id,
-    orbitRadius: 120,
-    size: 42,
+    orbitRadiusDesktop: 120,
+    orbitRadiusMobile: 78,
+    sizeDesktop: 42,
+    sizeMobile: 30,
     speed: 0.35,
     phaseShift: (idx * 2 * Math.PI) / innerList.length,
     glowColor: (idx % 2 === 0 ? "orange" : "cyan") as GlowColor,
@@ -36,11 +39,13 @@ const orbitalConfigs: SkillConfig[] = [
     deviconUrl: tech.deviconUrl,
     item: tech,
   })),
-  // Outer Orbit (Radius ~200px) — Kecepatan diperlambat (-0.22)
+  // Outer Orbit
   ...outerList.map((tech, idx) => ({
     id: tech.id,
-    orbitRadius: 200,
-    size: 46,
+    orbitRadiusDesktop: 200,
+    orbitRadiusMobile: 130,
+    sizeDesktop: 46,
+    sizeMobile: 34,
     speed: -0.22,
     phaseShift: (idx * 2 * Math.PI) / outerList.length,
     glowColor: (idx % 2 === 0 ? "purple" : "cyan") as GlowColor,
@@ -54,14 +59,19 @@ const orbitalConfigs: SkillConfig[] = [
 const OrbitingSkillNode = memo(({
   config,
   angle,
+  isMobile,
   onSelect,
 }: {
   config: SkillConfig;
   angle: number;
+  isMobile: boolean;
   onSelect: (item: TechItem) => void;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { orbitRadius, size, label, deviconUrl, glowColor, item } = config;
+  const { orbitRadiusDesktop, orbitRadiusMobile, sizeDesktop, sizeMobile, label, deviconUrl, glowColor, item } = config;
+
+  const orbitRadius = isMobile ? orbitRadiusMobile : orbitRadiusDesktop;
+  const size = isMobile ? sizeMobile : sizeDesktop;
 
   const x = Math.cos(angle) * orbitRadius;
   const y = Math.sin(angle) * orbitRadius;
@@ -90,7 +100,7 @@ const OrbitingSkillNode = memo(({
     >
       <div
         className={`
-          relative w-full h-full p-2 bg-[#121418]/90 backdrop-blur-md
+          relative w-full h-full p-1.5 sm:p-2 bg-[#121418]/90 backdrop-blur-md
           rounded-full flex items-center justify-center border border-white/[0.15]
           transition-all duration-300 cursor-pointer
           ${isHovered ? "scale-125 border-orange-400" : "hover:border-white/30"}
@@ -104,7 +114,7 @@ const OrbitingSkillNode = memo(({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={deviconUrl} alt={label} className="w-full h-full object-contain filter drop-shadow" />
         {isHovered && (
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-[#0c0d0e]/95 border border-white/20 rounded text-xs font-mono text-white whitespace-nowrap pointer-events-none shadow-xl">
+          <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#0c0d0e]/95 border border-white/20 rounded text-[10px] font-mono text-white whitespace-nowrap pointer-events-none shadow-xl z-50">
             {label}
           </div>
         )}
@@ -148,14 +158,14 @@ const GlowingOrbitPath = memo(({ radius, glowColor = "cyan" }: { radius: number;
         className="absolute inset-0 rounded-full"
         style={{
           background: `radial-gradient(circle, transparent 40%, ${colors.secondary} 75%, ${colors.primary} 100%)`,
-          boxShadow: `0 0 40px ${colors.primary}, inset 0 0 30px ${colors.secondary}`,
+          boxShadow: `0 0 30px ${colors.primary}, inset 0 0 20px ${colors.secondary}`,
         }}
       />
       <div
         className="absolute inset-0 rounded-full"
         style={{
           border: `1px solid ${colors.border}`,
-          boxShadow: `inset 0 0 15px ${colors.secondary}`,
+          boxShadow: `inset 0 0 10px ${colors.secondary}`,
         }}
       />
     </div>
@@ -167,6 +177,16 @@ export function SkillsSection() {
   const [selectedSkill, setSelectedSkill] = useState<TechItem | null>(null);
   const [time, setTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (isPaused) return;
@@ -187,33 +207,33 @@ export function SkillsSection() {
   }, [isPaused]);
 
   return (
-    <section id="skills" className="py-24 px-6 max-w-7xl mx-auto border-t border-white/[0.06] relative">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+    <section id="skills" className="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto border-t border-white/[0.06] relative">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12">
         <div>
-          <div className="text-sm font-mono text-orange-500 mb-2 uppercase tracking-wider font-semibold">
+          <div className="text-xs sm:text-sm font-mono text-orange-500 mb-2 uppercase tracking-wider font-semibold">
             // 02. TECHNICAL SKILLS & ORBITAL MATRIX
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[#ededec]">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-[#ededec]">
             Core Skills & Ecosystem
           </h2>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
         {/* Left Column: Orbital Canvas Reference Component (7 cols) */}
         <div 
-          className="lg:col-span-7 relative w-full h-[460px] sm:h-[500px] flex items-center justify-center cursor-glass rounded-2xl border border-white/[0.1] overflow-hidden"
+          className="lg:col-span-7 relative w-full h-[340px] sm:h-[460px] md:h-[500px] flex items-center justify-center cursor-glass rounded-2xl border border-white/[0.1] overflow-hidden"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Background grid */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
 
           {/* Central Code Hub Icon with Glow */}
-          <div className="w-20 h-20 bg-gradient-to-br from-[#1e222b] to-[#0f1115] rounded-full flex items-center justify-center z-20 relative shadow-2xl border border-white/[0.2]">
+          <div className="w-14 h-14 sm:w-20 sm:h-20 bg-gradient-to-br from-[#1e222b] to-[#0f1115] rounded-full flex items-center justify-center z-20 relative shadow-2xl border border-white/[0.2]">
             <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-xl animate-pulse" />
             <div className="absolute inset-0 rounded-full bg-orange-500/20 blur-2xl animate-pulse" style={{ animationDelay: "1s" }} />
-            <div className="relative z-10">
+            <div className="relative z-10 scale-75 sm:scale-100">
               <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="url(#gradient-hub)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <defs>
                   <linearGradient id="gradient-hub" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -228,8 +248,8 @@ export function SkillsSection() {
           </div>
 
           {/* Render glowing orbit paths */}
-          <GlowingOrbitPath radius={120} glowColor="orange" />
-          <GlowingOrbitPath radius={200} glowColor="cyan" />
+          <GlowingOrbitPath radius={isMobile ? 78 : 120} glowColor="orange" />
+          <GlowingOrbitPath radius={isMobile ? 130 : 200} glowColor="cyan" />
 
           {/* Render orbiting skill icons */}
           {orbitalConfigs.map((config) => {
@@ -239,6 +259,7 @@ export function SkillsSection() {
                 key={config.id}
                 config={config}
                 angle={angle}
+                isMobile={isMobile}
                 onSelect={(item) => setSelectedSkill(item)}
               />
             );
@@ -248,49 +269,49 @@ export function SkillsSection() {
         {/* Right Column: Grid List of All Skills + Detailed Inspector (5 cols) */}
         <div className="lg:col-span-5 flex flex-col gap-4">
           {/* Active Inspector Card */}
-          <div className="cursor-glass p-6 rounded-2xl border border-white/[0.12] min-h-[150px] flex flex-col justify-center shadow-lg">
+          <div className="cursor-glass p-5 sm:p-6 rounded-2xl border border-white/[0.12] min-h-[130px] sm:min-h-[150px] flex flex-col justify-center shadow-lg">
             {selectedSkill ? (
               <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
+                  <div className="flex items-center gap-2.5">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={selectedSkill.deviconUrl} alt={selectedSkill.name} className="w-7 h-7" />
-                    <span className="font-bold text-lg text-[#ededec]">{selectedSkill.name}</span>
+                    <img src={selectedSkill.deviconUrl} alt={selectedSkill.name} className="w-6 h-6 sm:w-7 sm:h-7" />
+                    <span className="font-bold text-base sm:text-lg text-[#ededec]">{selectedSkill.name}</span>
                   </div>
-                  <span className="text-xs font-mono uppercase px-2.5 py-1 rounded bg-white/[0.08] text-[#9ca3af] border border-white/[0.1]">
+                  <span className="text-[10px] sm:text-xs font-mono uppercase px-2 py-0.5 sm:px-2.5 sm:py-1 rounded bg-white/[0.08] text-[#9ca3af] border border-white/[0.1]">
                     {selectedSkill.category}
                   </span>
                 </div>
-                <p className="text-sm text-[#9ca3af] leading-relaxed font-mono mt-2">
+                <p className="text-xs sm:text-sm text-[#9ca3af] leading-relaxed font-mono mt-1 sm:mt-2">
                   {selectedSkill.description}
                 </p>
               </div>
             ) : (
-              <div className="text-center text-sm font-mono text-[#9ca3af]">
+              <div className="text-center text-xs sm:text-sm font-mono text-[#9ca3af]">
                 Hover or click any node to view details.
               </div>
             )}
           </div>
 
           {/* All Skills Static Badges Matrix */}
-          <div className="cursor-glass p-5 rounded-2xl border border-white/[0.08] shadow-md">
-            <div className="text-xs font-mono text-[#9ca3af] mb-3.5 uppercase tracking-wider font-semibold">
+          <div className="cursor-glass p-4 sm:p-5 rounded-2xl border border-white/[0.08] shadow-md">
+            <div className="text-[11px] sm:text-xs font-mono text-[#9ca3af] mb-3 uppercase tracking-wider font-semibold">
               All Indexed Technologies
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {TECH_STACK.map((tech) => (
                 <button
                   key={tech.id}
                   onClick={() => setSelectedSkill(tech)}
-                  className={`flex items-center gap-2.5 p-2.5 rounded-lg text-left transition-all border ${
+                  className={`flex items-center gap-2 p-2 sm:p-2.5 rounded-lg text-left transition-all border ${
                     selectedSkill?.id === tech.id
                       ? "bg-white/[0.12] border-white/30 text-white shadow"
                       : "bg-white/[0.02] border-white/[0.06] text-[#9ca3af] hover:text-white hover:border-white/[0.15]"
                   }`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={tech.deviconUrl} alt={tech.name} className="w-5 h-5 object-contain" />
-                  <span className="text-xs font-mono font-medium truncate">{tech.name}</span>
+                  <img src={tech.deviconUrl} alt={tech.name} className="w-4 h-4 sm:w-5 sm:h-5 object-contain shrink-0" />
+                  <span className="text-[11px] sm:text-xs font-mono font-medium truncate">{tech.name}</span>
                 </button>
               ))}
             </div>
