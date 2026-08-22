@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, memo } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { Terminal, Menu, X, Code2 } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,12 +18,11 @@ export function Navbar() {
   return (
     <header className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 flex justify-center">
       <div className="w-full max-w-6xl cursor-glass rounded-xl sm:rounded-2xl px-6 py-3.5 flex items-center justify-between border border-white/[0.12] shadow-2xl backdrop-blur-2xl">
-        {/* Left: Brand Name */}
-        <Link href="#home" className="flex items-center gap-2.5 text-white hover:text-orange-400 transition-colors group">
-          <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center group-hover:scale-105 transition-transform">
-            <Code2 className="w-4 h-4 text-orange-400" />
-          </div>
-          <span className="font-mono font-bold text-base sm:text-lg tracking-tight">Raymoon</span>
+        {/* Left: Brand Name without </> logo, with orange dot */}
+        <Link href="#home" className="flex items-center text-white hover:text-white transition-colors group">
+          <span className="font-mono font-bold text-lg sm:text-xl tracking-tight">
+            Raymoon<span className="inline-block w-2 h-2 rounded-full bg-orange-500 ml-0.5" />
+          </span>
         </Link>
 
         {/* Center: Navigation Links */}

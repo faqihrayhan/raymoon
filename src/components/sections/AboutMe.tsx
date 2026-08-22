@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
-import { Terminal, Shield, Zap, Sparkles, MapPin, UserCheck, ShieldCheck } from "lucide-react";
+import { Terminal, ShieldCheck, Zap, Sparkles } from "lucide-react";
 
 export function AboutMe() {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -20,10 +20,10 @@ export function AboutMe() {
     const deltaX = e.clientX - centerX;
     const deltaY = e.clientY - centerY;
 
-    // Physics rotation & pendulum sway
+    // Physics 3D tilt & rotation
     const rY = (deltaX / (rect.width / 2)) * 14;
     const rX = -(deltaY / (rect.height / 2)) * 14;
-    const sX = (deltaX / (rect.width / 2)) * 12;
+    const sX = (deltaX / (rect.width / 2)) * 8;
 
     setRotateX(rX);
     setRotateY(rY);
@@ -40,60 +40,31 @@ export function AboutMe() {
   return (
     <section id="about" className="py-24 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Column: Interactive Hanging Lanyard Card (5 cols) */}
+        {/* Left Column: Interactive 3D Card (Tanpa tali/lanyard) */}
         <div 
-          className="lg:col-span-5 flex flex-col items-center justify-center relative select-none py-6"
+          className="lg:col-span-5 flex flex-col items-center justify-center relative select-none py-4"
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={handleMouseLeave}
         >
-          {/* Lanyard Top Ceiling Clip & Strap Anchor */}
-          <div className="relative z-20 flex flex-col items-center pointer-events-none">
-            {/* Metal Ceiling Pin */}
-            <div className="w-10 h-3 rounded-full bg-gradient-to-r from-neutral-600 via-neutral-300 to-neutral-700 shadow-md border border-white/20" />
-            
-            {/* Lanyard Fabric Ribbon Strap (Woven Blue/White Ribbon matching the photo) */}
-            <div 
-              className="w-4 h-20 bg-gradient-to-b from-[#1d4ed8] via-[#2563eb] to-[#1e40af] border-x border-[#60a5fa]/60 shadow-lg relative transition-transform duration-200 ease-out origin-top"
-              style={{
-                transform: `rotate(${swayX * 0.7}deg)`,
-              }}
-            >
-              <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-1 bg-white/80" />
-            </div>
-
-            {/* Metal Swivel Hook / Keyring */}
-            <div 
-              className="w-6 h-6 rounded-full border-2 border-neutral-300 bg-neutral-800 -mt-1 shadow-md flex items-center justify-center transition-transform duration-200 ease-out"
-              style={{
-                transform: `rotate(${swayX * 0.9}deg)`,
-              }}
-            >
-              <div className="w-2 h-3 bg-neutral-400 rounded-sm" />
-            </div>
-          </div>
-
-          {/* Hanging Identity Badge Card with 3D Physics */}
+          {/* 3D Tilt Card */}
           <div
             ref={cardRef}
-            className="relative z-10 w-full max-w-[280px] sm:max-w-[310px] cursor-pointer transition-transform duration-200 ease-out"
+            className="relative z-10 w-full max-w-[290px] sm:max-w-[320px] cursor-pointer transition-transform duration-200 ease-out"
             style={{
               perspective: "1000px",
-              transform: `translateX(${swayX}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) rotateZ(${swayX * 0.3}deg)`,
-              transformOrigin: "top center",
+              transform: `translateX(${swayX}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`,
+              transformOrigin: "center center",
             }}
           >
-            <div className="relative rounded-2xl cursor-glass border border-white/20 p-5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-2xl bg-[#14171d]/90 overflow-hidden">
-              {/* Lanyard Clip Slot Hole at top of Card */}
-              <div className="w-12 h-2.5 mx-auto bg-[#0a0c10] rounded-full border border-white/20 mb-4 shadow-inner" />
-
-              {/* Holographic Specular Sheen on Card */}
+            <div className="relative rounded-2xl cursor-glass border border-white/20 p-5 shadow-[0_25px_60px_rgba(0,0,0,0.7)] backdrop-blur-2xl bg-[#14171d]/90 overflow-hidden">
+              {/* Holographic Specular Highlight */}
               <div 
                 className="absolute inset-0 bg-gradient-to-tr from-white/[0.08] via-transparent to-orange-500/[0.08] pointer-events-none rounded-2xl transition-opacity duration-300"
-                style={{ opacity: isHovering ? 1 : 0.4 }}
+                style={{ opacity: isHovering ? 1 : 0.35 }}
               />
 
-              {/* Photo Frame Container */}
+              {/* Photo Frame */}
               <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden mb-4 border border-white/15 bg-black/40 shadow-inner">
                 <Image
                   src="/images/profile/avatar.png"
@@ -102,20 +73,15 @@ export function AboutMe() {
                   priority
                   className="object-cover object-top hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute bottom-2 left-2 right-2 px-2.5 py-1 rounded bg-[#0c0d0e]/80 backdrop-blur-md border border-white/10 flex items-center justify-between text-[11px] font-mono">
-                  <span className="text-white font-semibold">M. FAQIH RAIHAN</span>
-                  <span className="text-orange-400">DEV / ARCH</span>
-                </div>
               </div>
 
-              {/* Badge Details */}
-              <div className="space-y-1.5 text-center font-mono">
-                <div className="text-xs text-white font-bold tracking-wider uppercase">
-                  RAYMOON HQ · SYSTEM ID
+              {/* Card Label */}
+              <div className="text-center font-mono">
+                <div className="text-sm text-white font-bold tracking-wider">
+                  M. FAQIH RAIHAN
                 </div>
-                <div className="text-[10px] text-[#9ca3af] flex items-center justify-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  AUTHENTICATED · ON-CHAIN DEV
+                <div className="text-xs text-orange-400 mt-0.5">
+                  Autonomous AI Agent & Web3 Developer
                 </div>
               </div>
             </div>

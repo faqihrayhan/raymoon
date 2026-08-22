@@ -28,8 +28,8 @@ export function ProjectSection() {
         </div>
       </div>
 
-      {/* Carousel Container */}
-      <div className="relative min-h-[460px] md:min-h-[480px] flex items-center justify-center">
+      {/* Wider Featured Build Carousel Container */}
+      <div className="relative min-h-[440px] md:min-h-[460px] flex items-center justify-center">
         {PROJECTS.map((item, idx) => {
           let offset = idx - currentIndex;
           if (offset < -Math.floor(PROJECTS.length / 2)) {
@@ -49,13 +49,13 @@ export function ProjectSection() {
             <div
               key={item.id}
               onClick={() => setCurrentIndex(idx)}
-              className={`absolute w-full max-w-[350px] sm:max-w-[500px] md:max-w-[620px] transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] cursor-pointer select-none ${
+              className={`absolute w-full max-w-[360px] sm:max-w-[580px] md:max-w-[760px] lg:max-w-[840px] transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] cursor-pointer select-none ${
                 isActive
                   ? "z-30 scale-100 opacity-100 translate-x-0 cursor-glass-active shadow-2xl"
                   : isPrev
-                  ? "z-20 scale-[0.90] opacity-40 -translate-x-[60%] sm:-translate-x-[75%] md:-translate-x-[85%] cursor-glass"
-                  : "z-20 scale-[0.90] opacity-40 translate-x-[60%] sm:translate-x-[75%] md:translate-x-[85%] cursor-glass"
-              } p-6 md:p-8 rounded-2xl border border-white/[0.12]`}
+                  ? "z-20 scale-[0.92] opacity-35 -translate-x-[65%] sm:-translate-x-[80%] md:-translate-x-[90%] cursor-glass"
+                  : "z-20 scale-[0.92] opacity-35 translate-x-[65%] sm:translate-x-[80%] md:translate-x-[90%] cursor-glass"
+              } p-7 md:p-10 rounded-2xl border border-white/[0.12]`}
             >
               {/* Category & Status */}
               <div className="flex items-center justify-between gap-4 mb-4 border-b border-white/[0.06] pb-3">
@@ -68,10 +68,10 @@ export function ProjectSection() {
               </div>
 
               {/* Title & Description */}
-              <h3 className="text-2xl font-bold text-[#ededec] mb-3 tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-bold text-[#ededec] mb-3 tracking-tight">
                 {item.title}
               </h3>
-              <p className="text-sm font-mono text-[#9ca3af] leading-relaxed mb-6">
+              <p className="text-sm sm:text-base font-mono text-[#9ca3af] leading-relaxed mb-6">
                 {item.description}
               </p>
 
@@ -81,7 +81,7 @@ export function ProjectSection() {
                   {item.stats.map((st, i) => (
                     <div key={i} className="bg-white/[0.03] border border-white/[0.08] p-3 rounded-xl">
                       <div className="text-xs font-mono text-[#9ca3af] uppercase mb-0.5">{st.label}</div>
-                      <div className="text-sm font-mono font-bold text-[#ededec]">{st.value}</div>
+                      <div className="text-sm sm:text-base font-mono font-bold text-[#ededec]">{st.value}</div>
                     </div>
                   ))}
                 </div>
@@ -93,7 +93,7 @@ export function ProjectSection() {
                   {item.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2.5 py-1 rounded-md text-xs font-mono bg-white/[0.04] text-[#9ca3af] border border-white/[0.08]"
+                      className="px-3 py-1 rounded-md text-xs font-mono bg-white/[0.04] text-[#9ca3af] border border-white/[0.08]"
                     >
                       {tag}
                     </span>
@@ -105,7 +105,7 @@ export function ProjectSection() {
                     href={item.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white text-black text-xs font-mono font-semibold hover:bg-neutral-200 transition-colors shadow-sm"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white text-black text-xs font-mono font-semibold hover:bg-neutral-200 transition-colors shadow-sm"
                   >
                     <Code2 className="w-4 h-4" />
                     Source

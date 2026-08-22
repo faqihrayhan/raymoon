@@ -26,9 +26,8 @@ export function ExperienceSection() {
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 border-b border-white/[0.06] pb-4">
               <div>
-                <h3 className="text-xl font-bold text-[#ededec] tracking-tight flex items-center gap-2">
-                  <span>{item.role}</span>
-                  <span className="text-sm font-mono text-orange-400 font-normal">@ {item.company}</span>
+                <h3 className="text-xl font-bold text-[#ededec] tracking-tight">
+                  {item.role}
                 </h3>
               </div>
               <span className="text-xs font-mono text-[#9ca3af] px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.08] w-fit">

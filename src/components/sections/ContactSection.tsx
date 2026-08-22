@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { PROFILE_DATA } from "@/config/portfolio";
-import { Send, ArrowUpRight, Code2, Mail, CheckCircle2 } from "lucide-react";
+import { Send, ArrowUpRight } from "lucide-react";
 
 export function ContactSection() {
   const [name, setName] = useState("");
   const [senderEmail, setSenderEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,12 +19,11 @@ export function ContactSection() {
     );
 
     window.location.href = `mailto:fqhrayhan19@gmail.com?subject=${subject}&body=${body}`;
-    setSubmitted(true);
   };
 
   return (
     <section id="contact" className="py-24 px-6 max-w-7xl mx-auto border-t border-white/[0.06]">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <div className="text-sm font-mono text-orange-500 mb-2 uppercase tracking-wider font-semibold">
             // 05. DIRECT TRANSMISSION
@@ -50,7 +47,7 @@ export function ContactSection() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Satoshi Nakamoto"
+                  placeholder="Enter your name..."
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/[0.1] text-white font-mono text-sm placeholder:text-[#555861] focus:outline-none focus:border-orange-500 transition-colors"
@@ -64,7 +61,7 @@ export function ContactSection() {
                 <input
                   type="email"
                   required
-                  placeholder="e.g. satoshi@bitcoin.org"
+                  placeholder="Enter your email..."
                   value={senderEmail}
                   onChange={(e) => setSenderEmail(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/[0.1] text-white font-mono text-sm placeholder:text-[#555861] focus:outline-none focus:border-orange-500 transition-colors"
@@ -86,14 +83,10 @@ export function ContactSection() {
               />
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-              <span className="text-xs font-mono text-[#9ca3af]">
-                Direct route: <span className="text-orange-400">fqhrayhan19@gmail.com</span>
-              </span>
-
+            <div className="flex items-center justify-center pt-4">
               <button
                 type="submit"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-white text-black font-mono text-sm font-semibold hover:bg-neutral-200 transition-all flex items-center justify-center gap-2 shadow-md hover:scale-105"
+                className="w-full sm:w-auto px-10 py-3.5 rounded-lg bg-white text-black font-mono text-sm font-semibold hover:bg-neutral-200 transition-all flex items-center justify-center gap-2 shadow-md hover:scale-105"
               >
                 <Send className="w-4 h-4" />
                 <span>Send to Email</span>
