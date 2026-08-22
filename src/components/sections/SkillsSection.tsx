@@ -1,192 +1,299 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { TECH_STACK, TechItem } from "@/config/portfolio";
-import { Cpu, Terminal, ArrowUpRight } from "lucide-react";
+
+type GlowColor = "cyan" | "purple" | "orange";
+
+interface SkillConfig {
+  id: string;
+  orbitRadius: number;
+  size: number;
+  speed: number;
+  phaseShift: number;
+  glowColor: GlowColor;
+  label: string;
+  deviconUrl: string;
+  item: TechItem;
+}
+
+// Config mapping for our real skills on 2 orbital paths
+const innerSkills = TECH_STACK.slice(0, 4); // Python, TS, Solidity, Solana
+const outerSkills = TECH_STACK.slice(4);    // Node, FastAPI, Postgres, Docker, Git, Linux
+
+const orbitalConfigs: SkillConfig[] = [
+  // Inner Orbit (Radius ~110px)
+  ...innerSkills.map((tech, idx) => ({
+    id: tech.id,
+    orbitRadius: 115,
+    size: 44,
+    speed: 0.8,
+    phaseShift: (idx * 2 * Math.PI) / innerSkills.length,
+    glowColor: (idx % 2 === 0 ? "cyan" : "orange") as GlowColor,
+    label: tech.name,
+    deviconUrl: tech.deviconUrl,
+    item: tech,
+  })),
+  // Outer Orbit (Radius ~190px)
+  ...outerSkills.map((tech, idx) => ({
+    id: tech.id,
+    orbitRadius: 195,
+    size: 46,
+    speed: -0.5,
+    phaseShift: (idx * 2 * Math.PI) / outerSkills.length,
+    glowColor: (idx % 2 === 0 ? "purple" : "cyan") as GlowColor,
+    label: tech.name,
+    deviconUrl: tech.deviconUrl,
+    item: tech,
+  })),
+];
+
+// Memoized Orbiting Skill Item Component
+const OrbitingSkillNode = memo(({
+  config,
+  angle,
+  onSelect,
+}: {
+  config: SkillConfig;
+  angle: number;
+  onSelect: (item: TechItem) => void;
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const { orbitRadius, size, label, deviconUrl, glowColor, item } = config;
+
+  const x = Math.cos(angle) * orbitRadius;
+  const y = Math.sin(angle) * orbitRadius;
+
+  const glowShadowMap = {
+    cyan: "rgba(6, 182, 212, 0.5)",
+    purple: "rgba(147, 51, 234, 0.5)",
+    orange: "rgba(245, 78, 0, 0.5)",
+  };
+
+  return (
+    <div
+      className="absolute top-1/2 left-1/2 transition-all duration-100 ease-linear select-none"
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))`,
+        zIndex: isHovered ? 30 : 10,
+      }}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        onSelect(item);
+      }}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => onSelect(item)}
+    >
+      <div
+        className={`
+          relative w-full h-full p-2.5 bg-[#121418]/90 backdrop-blur-md
+          rounded-full flex items-center justify-center border border-white/[0.15]
+          transition-all duration-300 cursor-pointer
+          ${isHovered ? "scale-125 border-orange-400" : "hover:border-white/30"}
+        `}
+        style={{
+          boxShadow: isHovered
+            ? `0 0 25px ${glowShadowMap[glowColor]}, 0 0 50px ${glowShadowMap[glowColor]}`
+            : `0 4px 15px rgba(0,0,0,0.5)`,
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={deviconUrl} alt={label} className="w-full h-full object-contain filter drop-shadow" />
+        {isHovered && (
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-[#0c0d0e]/95 border border-white/20 rounded text-xs font-mono text-white whitespace-nowrap pointer-events-none shadow-xl">
+            {label}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+});
+OrbitingSkillNode.displayName = "OrbitingSkillNode";
+
+// Optimized Glow Orbit Path
+const GlowingOrbitPath = memo(({ radius, glowColor = "cyan", animationDelay = 0 }: { radius: number; glowColor?: GlowColor; animationDelay?: number }) => {
+  const glowColors = {
+    cyan: {
+      primary: "rgba(6, 182, 212, 0.35)",
+      secondary: "rgba(6, 182, 212, 0.15)",
+      border: "rgba(6, 182, 212, 0.25)",
+    },
+    purple: {
+      primary: "rgba(147, 51, 234, 0.35)",
+      secondary: "rgba(147, 51, 234, 0.15)",
+      border: "rgba(147, 51, 234, 0.25)",
+    },
+    orange: {
+      primary: "rgba(245, 78, 0, 0.35)",
+      secondary: "rgba(245, 78, 0, 0.15)",
+      border: "rgba(245, 78, 0, 0.25)",
+    },
+  };
+
+  const colors = glowColors[glowColor] || glowColors.cyan;
+
+  return (
+    <div
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
+      style={{
+        width: `${radius * 2}px`,
+        height: `${radius * 2}px`,
+      }}
+    >
+      {/* Ambient glowing radial backdrop */}
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{
+          background: `radial-gradient(circle, transparent 40%, ${colors.secondary} 75%, ${colors.primary} 100%)`,
+          boxShadow: `0 0 40px ${colors.primary}, inset 0 0 30px ${colors.secondary}`,
+        }}
+      />
+      {/* Precision hairline ring */}
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{
+          border: `1px solid ${colors.border}`,
+          boxShadow: `inset 0 0 15px ${colors.secondary}`,
+        }}
+      />
+    </div>
+  );
+});
+GlowingOrbitPath.displayName = "GlowingOrbitPath";
 
 export function SkillsSection() {
   const [selectedSkill, setSelectedSkill] = useState<TechItem | null>(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const [time, setTime] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  // Divide into inner and outer ring
-  const innerRing = TECH_STACK.slice(0, 5);
-  const outerRing = TECH_STACK.slice(5);
+  useEffect(() => {
+    if (isPaused) return;
+
+    let animationFrameId: number;
+    let lastTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const deltaTime = (currentTime - lastTime) / 1000;
+      lastTime = currentTime;
+
+      setTime((prevTime) => prevTime + deltaTime);
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isPaused]);
 
   return (
     <section id="skills" className="py-24 px-6 max-w-7xl mx-auto border-t border-white/[0.06] relative">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div>
-          <div className="text-xs font-mono text-orange-500 mb-2 uppercase tracking-wider">
+          <div className="text-sm font-mono text-orange-500 mb-2 uppercase tracking-wider font-semibold">
             // 02. TECHNICAL SKILLS & ORBITAL MATRIX
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#ededec]">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[#ededec]">
             Core Skills & Ecosystem
           </h2>
         </div>
-        <p className="text-xs font-mono text-[#8b8e96] max-w-md mt-2 md:mt-0">
+        <p className="text-sm font-mono text-[#9ca3af] max-w-md mt-3 md:mt-0">
           Planetary tech orbit with genuine brand vectors. Hover on nodes to inspect telemetry.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left Column: Orbital Visual (7 cols) */}
-        <div className="lg:col-span-7 relative w-full h-[480px] sm:h-[540px] flex items-center justify-center cursor-glass rounded-xl border border-white/[0.08] overflow-hidden">
-          {/* Subtle background grid pattern */}
+        {/* Left Column: Orbital Canvas Reference Component (7 cols) */}
+        <div 
+          className="lg:col-span-7 relative w-full h-[460px] sm:h-[500px] flex items-center justify-center cursor-glass rounded-2xl border border-white/[0.1] overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Subtle background radial pattern */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
-          {/* Outer Orbit Ring */}
-          <div className="absolute w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] rounded-full border border-white/[0.07] pointer-events-none" />
-
-          {/* Inner Orbit Ring */}
-          <div className="absolute w-[220px] h-[220px] sm:w-[270px] sm:h-[270px] rounded-full border border-white/[0.07] pointer-events-none" />
-
-          {/* Center Hub */}
-          <div className="relative z-20 flex flex-col items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#121418] border border-white/[0.15] shadow-2xl p-2 text-center">
-            <Cpu className="w-6 h-6 text-orange-400 mb-1" />
-            <span className="font-mono text-[10px] font-bold text-[#ededec] tracking-wider">SKILLS</span>
+          {/* Central Code Hub Icon with Glow */}
+          <div className="w-20 h-20 bg-gradient-to-br from-[#1e222b] to-[#0f1115] rounded-full flex items-center justify-center z-20 relative shadow-2xl border border-white/[0.2]">
+            <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-xl animate-pulse" />
+            <div className="absolute inset-0 rounded-full bg-orange-500/20 blur-2xl animate-pulse" style={{ animationDelay: "1s" }} />
+            <div className="relative z-10">
+              <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="url(#gradient-hub)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <defs>
+                  <linearGradient id="gradient-hub" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#00d4ff" />
+                    <stop offset="100%" stopColor="#f54e00" />
+                  </linearGradient>
+                </defs>
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </div>
           </div>
 
-          {/* Outer Ring Orbit (Counter-clockwise or slow rotation) */}
-          <div
-            className="absolute w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] rounded-full flex items-center justify-center"
-            style={{
-              animation: `spin 45s linear infinite ${isHovered ? "paused" : "running"}`,
-            }}
-          >
-            {outerRing.map((tech, idx) => {
-              const angle = (idx / outerRing.length) * 360;
-              const radius = typeof window !== "undefined" && window.innerWidth < 640 ? 180 : 220;
-              const rad = (angle * Math.PI) / 180;
-              const x = radius * Math.cos(rad);
-              const y = radius * Math.sin(rad);
+          {/* Render glowing orbit paths */}
+          <GlowingOrbitPath radius={115} glowColor="orange" />
+          <GlowingOrbitPath radius={195} glowColor="cyan" />
 
-              return (
-                <div
-                  key={tech.id}
-                  className="absolute"
-                  style={{ transform: `translate(${x}px, ${y}px)` }}
-                  onMouseEnter={() => {
-                    setIsHovered(true);
-                    setSelectedSkill(tech);
-                  }}
-                  onMouseLeave={() => setIsHovered(false)}
-                  onClick={() => setSelectedSkill(tech)}
-                >
-                  <div
-                    className="flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-[#14161a] border border-white/[0.12] hover:border-orange-500/60 transition-all hover:scale-125 cursor-pointer shadow-lg group relative p-2"
-                    style={{
-                      animation: `spin 45s linear infinite reverse ${isHovered ? "paused" : "running"}`,
-                    }}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={tech.deviconUrl}
-                      alt={tech.name}
-                      className="w-6 h-6 object-contain filter drop-shadow"
-                    />
-                    <div className="absolute -bottom-6 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-black/90 px-2 py-0.5 rounded text-[10px] font-mono text-white pointer-events-none border border-white/20">
-                      {tech.name}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Inner Ring Orbit */}
-          <div
-            className="absolute w-[220px] h-[220px] sm:w-[270px] sm:h-[270px] rounded-full flex items-center justify-center"
-            style={{
-              animation: `spin 28s linear infinite reverse ${isHovered ? "paused" : "running"}`,
-            }}
-          >
-            {innerRing.map((tech, idx) => {
-              const angle = (idx / innerRing.length) * 360;
-              const radius = typeof window !== "undefined" && window.innerWidth < 640 ? 110 : 135;
-              const rad = (angle * Math.PI) / 180;
-              const x = radius * Math.cos(rad);
-              const y = radius * Math.sin(rad);
-
-              return (
-                <div
-                  key={tech.id}
-                  className="absolute"
-                  style={{ transform: `translate(${x}px, ${y}px)` }}
-                  onMouseEnter={() => {
-                    setIsHovered(true);
-                    setSelectedSkill(tech);
-                  }}
-                  onMouseLeave={() => setIsHovered(false)}
-                  onClick={() => setSelectedSkill(tech)}
-                >
-                  <div
-                    className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-[#14161a] border border-white/[0.12] hover:border-orange-500/60 transition-all hover:scale-125 cursor-pointer shadow-lg group relative p-2"
-                    style={{
-                      animation: `spin 28s linear infinite ${isHovered ? "paused" : "running"}`,
-                    }}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={tech.deviconUrl}
-                      alt={tech.name}
-                      className="w-5 h-5 object-contain filter drop-shadow"
-                    />
-                    <div className="absolute -bottom-6 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-black/90 px-2 py-0.5 rounded text-[10px] font-mono text-white pointer-events-none border border-white/20">
-                      {tech.name}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {/* Render orbiting skill icons */}
+          {orbitalConfigs.map((config) => {
+            const angle = time * config.speed + (config.phaseShift || 0);
+            return (
+              <OrbitingSkillNode
+                key={config.id}
+                config={config}
+                angle={angle}
+                onSelect={(item) => setSelectedSkill(item)}
+              />
+            );
+          })}
         </div>
 
         {/* Right Column: Grid List of All Skills + Detailed Inspector (5 cols) */}
         <div className="lg:col-span-5 flex flex-col gap-4">
           {/* Active Inspector Card */}
-          <div className="cursor-glass p-5 rounded-xl border border-white/[0.12] min-h-[140px] flex flex-col justify-center">
+          <div className="cursor-glass p-6 rounded-2xl border border-white/[0.12] min-h-[160px] flex flex-col justify-center shadow-lg">
             {selectedSkill ? (
               <div>
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={selectedSkill.deviconUrl} alt={selectedSkill.name} className="w-6 h-6" />
-                    <span className="font-bold text-base text-[#ededec]">{selectedSkill.name}</span>
+                    <img src={selectedSkill.deviconUrl} alt={selectedSkill.name} className="w-7 h-7" />
+                    <span className="font-bold text-lg text-[#ededec]">{selectedSkill.name}</span>
                   </div>
-                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-white/[0.06] text-[#8b8e96] border border-white/[0.08]">
+                  <span className="text-xs font-mono uppercase px-2.5 py-1 rounded bg-white/[0.08] text-[#9ca3af] border border-white/[0.1]">
                     {selectedSkill.category}
                   </span>
                 </div>
-                <p className="text-xs text-[#8b8e96] leading-relaxed font-mono mt-2">
+                <p className="text-sm text-[#9ca3af] leading-relaxed font-mono mt-2">
                   {selectedSkill.description}
                 </p>
               </div>
             ) : (
-              <div className="text-center text-xs font-mono text-[#8b8e96]">
+              <div className="text-center text-sm font-mono text-[#9ca3af]">
                 Hover or click any planetary node in the orbit to inspect telemetry details.
               </div>
             )}
           </div>
 
           {/* All Skills Static Badges Matrix */}
-          <div className="cursor-glass p-4 rounded-xl border border-white/[0.08]">
-            <div className="text-[11px] font-mono text-[#8b8e96] mb-3 uppercase tracking-wider">
+          <div className="cursor-glass p-5 rounded-2xl border border-white/[0.08] shadow-md">
+            <div className="text-xs font-mono text-[#9ca3af] mb-3.5 uppercase tracking-wider font-semibold">
               All Indexed Technologies
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
               {TECH_STACK.map((tech) => (
                 <button
                   key={tech.id}
                   onClick={() => setSelectedSkill(tech)}
-                  className={`flex items-center gap-2 p-2 rounded-md text-left transition-all border ${
+                  className={`flex items-center gap-2.5 p-2.5 rounded-lg text-left transition-all border ${
                     selectedSkill?.id === tech.id
-                      ? "bg-white/[0.1] border-white/20 text-white"
-                      : "bg-white/[0.02] border-white/[0.06] text-[#8b8e96] hover:text-white hover:border-white/[0.12]"
+                      ? "bg-white/[0.12] border-white/30 text-white shadow"
+                      : "bg-white/[0.02] border-white/[0.06] text-[#9ca3af] hover:text-white hover:border-white/[0.15]"
                   }`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={tech.deviconUrl} alt={tech.name} className="w-4 h-4 object-contain" />
-                  <span className="text-xs font-mono truncate">{tech.name}</span>
+                  <img src={tech.deviconUrl} alt={tech.name} className="w-5 h-5 object-contain" />
+                  <span className="text-xs font-mono font-medium truncate">{tech.name}</span>
                 </button>
               ))}
             </div>
