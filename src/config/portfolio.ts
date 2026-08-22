@@ -1,8 +1,7 @@
 export interface TechItem {
   id: string;
   name: string;
-  category: "core" | "infra" | "web3";
-  iconType: string;
+  category: "frontend" | "backend" | "design" | "tools";
   deviconUrl: string;
   color: string;
   description: string;
@@ -34,58 +33,102 @@ export const PROFILE_DATA = {
   name: "Rayhan",
   handle: "raymoon",
   headline: "Autonomous AI Agent · Smart Contracts · Automation · Web Developer",
-  subheadline: "Shipping autonomous AI agents executing fully on-chain on Solana, deploying & testing smart contracts on Arc testnet with Foundry, and building resilient automation systems.",
-  about: "I'm a developer focused on autonomous AI agents, on-chain execution on Solana, smart contract testing via Foundry, and high-performance Python automation pipelines. I build modular web applications and developer tools with meticulous engineering standards.",
+  subheadline: "Shipping autonomous AI agents, deploying & testing smart contracts on Arc testnet with Foundry, and building resilient fullstack web and automation systems.",
+  about: "I'm a developer and designer passionate about building decentralized applications, autonomous AI workflows, robust web platforms, and refined user interfaces.",
   socials: {
-    github: "https://github.com/faqihrayhan",
+    instagram: "https://www.instagram.com/fqhray_/",
+    linkedin: "https://www.linkedin.com/in/mfaqihraihan/",
     x: "https://x.com/kyleenpl",
-    linkedin: "https://linkedin.com/in/faqihrayhan",
-    email: "faqihrai02@gmail.com",
+    github: "https://github.com/faqihrayhan",
+    email: "fqhrayhan19@gmail.com",
   },
 };
 
 export const TECH_STACK: TechItem[] = [
   {
-    id: "python",
-    name: "Python",
-    category: "core",
-    iconType: "python",
-    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-    color: "#3776AB",
-    description: "Core language for AI agents, automation pipelines, and async backend daemons.",
+    id: "html",
+    name: "HTML5",
+    category: "frontend",
+    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+    color: "#E34F26",
+    description: "Semantic markup, modern web accessibility standards, and document structuring.",
+  },
+  {
+    id: "css",
+    name: "CSS3",
+    category: "frontend",
+    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+    color: "#1572B6",
+    description: "Responsive layouts, fluid animations, custom variables, and modern styling techniques.",
+  },
+  {
+    id: "javascript",
+    name: "JavaScript",
+    category: "frontend",
+    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+    color: "#F7DF1E",
+    description: "Modern ES6+ syntax, asynchronous event loops, and interactive client logic.",
   },
   {
     id: "typescript",
     name: "TypeScript",
-    category: "core",
-    iconType: "typescript",
+    category: "frontend",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
     color: "#3178C6",
-    description: "Strictly typed web development, Next.js dApp architectures, and robust SDK integrations.",
+    description: "Strictly typed web development, robust API contracts, and scalable architecture.",
+  },
+  {
+    id: "react",
+    name: "React JS",
+    category: "frontend",
+    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+    color: "#61DAFB",
+    description: "Component-driven architecture, custom hooks, state management, and virtual DOM rendering.",
+  },
+  {
+    id: "tailwind",
+    name: "Tailwind CSS",
+    category: "frontend",
+    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
+    color: "#06B6D4",
+    description: "Utility-first CSS framework for rapid, highly customizable design systems.",
+  },
+  {
+    id: "figma",
+    name: "Figma",
+    category: "design",
+    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+    color: "#F24E1E",
+    description: "UI/UX wireframing, interactive prototyping, component libraries, and design tokens.",
+  },
+  {
+    id: "canva",
+    name: "Canva",
+    category: "design",
+    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg",
+    color: "#00C4CC",
+    description: "Digital branding, visual asset creation, creative layout production, and marketing media.",
+  },
+  {
+    id: "python",
+    name: "Python",
+    category: "backend",
+    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+    color: "#3776AB",
+    description: "Core language for AI agents, automation pipelines, and async backend services.",
   },
   {
     id: "solidity",
     name: "Solidity",
-    category: "web3",
-    iconType: "solidity",
+    category: "backend",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/solidity/solidity-original.svg",
     color: "#627EEA",
     description: "EVM Smart contracts, ERC20 tokens, custom security logic, and testing.",
   },
   {
-    id: "solana",
-    name: "Solana",
-    category: "web3",
-    iconType: "solana",
-    deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/solana/solana-original.svg",
-    color: "#14F195",
-    description: "High-throughput on-chain autonomous AI agents and automated transaction pipelines.",
-  },
-  {
     id: "nodejs",
     name: "Node.js",
-    category: "core",
-    iconType: "nodejs",
+    category: "backend",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
     color: "#339933",
     description: "Server-side JavaScript runtime for API services, microservices, and toolchains.",
@@ -93,8 +136,7 @@ export const TECH_STACK: TechItem[] = [
   {
     id: "fastapi",
     name: "FastAPI",
-    category: "infra",
-    iconType: "fastapi",
+    category: "backend",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg",
     color: "#009688",
     description: "High-performance asynchronous Python REST APIs and webhook processing engines.",
@@ -102,8 +144,7 @@ export const TECH_STACK: TechItem[] = [
   {
     id: "postgresql",
     name: "PostgreSQL",
-    category: "infra",
-    iconType: "postgresql",
+    category: "tools",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
     color: "#4169E1",
     description: "Relational database with Supabase RLS security policies and structured indexing.",
@@ -111,8 +152,7 @@ export const TECH_STACK: TechItem[] = [
   {
     id: "docker",
     name: "Docker",
-    category: "infra",
-    iconType: "docker",
+    category: "tools",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
     color: "#2496ED",
     description: "Isolated containerization for autonomous bots, background daemons, and microservices.",
@@ -120,8 +160,7 @@ export const TECH_STACK: TechItem[] = [
   {
     id: "git",
     name: "Git",
-    category: "infra",
-    iconType: "git",
+    category: "tools",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
     color: "#F05032",
     description: "Version control, branching workflows, CI/CD automation, and release management.",
@@ -129,8 +168,7 @@ export const TECH_STACK: TechItem[] = [
   {
     id: "linux",
     name: "Linux / WSL",
-    category: "infra",
-    iconType: "linux",
+    category: "tools",
     deviconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
     color: "#FCC624",
     description: "Homelab administration, system services, shell tooling, and workflow scripts.",
@@ -141,15 +179,15 @@ export const EXPERIENCES: ExperienceItem[] = [
   {
     id: "autonomous-ai-solana",
     role: "Autonomous AI Agent Architect",
-    company: "Solana Ecosystem",
+    company: "AI Automation Ecosystem",
     period: "2026 — Present",
-    description: "Architecting and deploying autonomous AI agents that run verifiable reasoning loops and execute on-chain transactions directly on Solana.",
+    description: "Architecting and deploying autonomous AI agents that run verifiable reasoning loops and execute automated multi-step operations.",
     highlights: [
-      "Built resilient asynchronous execution cycles with sub-second latency.",
-      "Integrated autonomous wallet management with strict security guardrails.",
-      "Automated on-chain event monitoring and reactive trade/interaction logic."
+      "Built resilient asynchronous execution cycles with sub-second response times.",
+      "Integrated autonomous task management with strict safety and state guardrails.",
+      "Automated real-time event monitoring and reactive interaction logic."
     ],
-    tags: ["Solana", "Python", "Autonomous Agents", "AsyncIO", "Web3"],
+    tags: ["Python", "Autonomous Agents", "AsyncIO", "Automation", "AI"],
   },
   {
     id: "smart-contracts-arc",
@@ -159,7 +197,7 @@ export const EXPERIENCES: ExperienceItem[] = [
     description: "Developing, testing, and auditing smart contracts on Arc Testnet using the Foundry framework with rigorous invariant tests.",
     highlights: [
       "Wrote comprehensive unit and fuzz test suites with >95% coverage.",
-      "Performed gas profiling and contract optimization.",
+      "Performed gas profiling and contract optimization routines.",
       "Deployed and verified contracts on Arc Testnet."
     ],
     tags: ["Solidity", "Foundry", "Arc Testnet", "Security Audit", "EVM"],
@@ -179,32 +217,32 @@ export const EXPERIENCES: ExperienceItem[] = [
   },
   {
     id: "fullstack-web3",
-    role: "Web & dApp Developer",
+    role: "Web & Frontend Developer",
     company: "Client & Open Source Projects",
     period: "2024 — Present",
-    description: "Building modern responsive web applications, decentralized accounting portals, and branded SaaS platforms.",
+    description: "Building modern responsive web applications, accounting portals, and branded SaaS platforms with precision UI/UX design.",
     highlights: [
       "Shipped Nota dApp (Web3 invoice accounting with Next.js, i18n, Supabase RLS).",
-      "Delivered custom Next.js web applications with clean design systems.",
+      "Delivered custom Next.js web applications with clean design systems in Figma & Canva.",
       "Engineered type-safe API layers and internationalization architectures."
     ],
-    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase", "i18n"],
+    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Figma", "Canva"],
   },
 ];
 
 export const PROJECTS: ProjectItem[] = [
   {
-    id: "solana-agents",
-    title: "Autonomous AI Agent on Solana",
-    category: "AI & On-Chain Web3",
-    description: "Verifiable autonomous agent executing on-chain transactions on Solana with asynchronous runtime loops and real-time telemetry.",
-    tags: ["Solana", "Python", "AI Agent", "AsyncIO"],
-    image: "/images/projects/solana-agents.png",
+    id: "nota-dapp",
+    title: "Nota — Web3 Invoice & Accounting dApp",
+    category: "Full Stack dApp",
+    description: "Decentralized invoicing and merchant settlement dApp with multi-language i18n, Supabase RLS, dynamic QR payloads, and ERC20 token settlement.",
+    tags: ["Next.js", "TypeScript", "Supabase RLS", "ERC20", "Tailwind"],
+    image: "/images/projects/nota-app.png",
     stats: [
-      { label: "Execution", value: "100% On-Chain" },
-      { label: "Network", value: "Solana Mainnet/Devnet" },
+      { label: "Security", value: "Supabase RLS" },
+      { label: "Type-Safety", value: "100% Strict TS" },
     ],
-    github: "https://github.com/faqihrayhan",
+    github: "https://github.com/faqihrayhan/nota",
   },
   {
     id: "arc-contracts",
@@ -218,19 +256,6 @@ export const PROJECTS: ProjectItem[] = [
       { label: "Testing", value: "Fuzz & Invariant" },
     ],
     github: "https://github.com/faqihrayhan",
-  },
-  {
-    id: "nota-dapp",
-    title: "Nota — Web3 Invoice & Accounting dApp",
-    category: "Full Stack dApp",
-    description: "Decentralized invoicing and merchant settlement dApp with multi-language i18n, Supabase RLS, dynamic QR payloads, and ERC20 token settlement.",
-    tags: ["Next.js", "TypeScript", "Supabase RLS", "ERC20"],
-    image: "/images/projects/nota-app.png",
-    stats: [
-      { label: "Security", value: "Supabase RLS" },
-      { label: "Type-Safety", value: "100% Strict TS" },
-    ],
-    github: "https://github.com/faqihrayhan/nota",
   },
   {
     id: "telegram-video-bot",
@@ -248,9 +273,9 @@ export const PROJECTS: ProjectItem[] = [
   {
     id: "its-outpost",
     title: "OUTPOST Platform & SaaS Hub",
-    category: "Web Engineering",
+    category: "Web Engineering & Design",
     description: "Creative technology brand portal and SaaS interconnect hub built with Next.js App Router, design tokens, and modular components.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Design Tokens"],
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Figma", "Design Tokens"],
     image: "/images/projects/outpost.png",
     stats: [
       { label: "Architecture", value: "App Router" },

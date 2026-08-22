@@ -26,9 +26,6 @@ export function ProjectSection() {
             Selected Projects & dApps
           </h2>
         </div>
-        <p className="text-sm font-mono text-[#9ca3af] max-w-md mt-3 md:mt-0">
-          Carousel showcase with standard cubic-bezier zoom in/out dynamics.
-        </p>
       </div>
 
       {/* Carousel Container */}

@@ -17,30 +17,32 @@ interface SkillConfig {
   item: TechItem;
 }
 
-// Config mapping for our real skills on 2 orbital paths
-const innerSkills = TECH_STACK.slice(0, 4); // Python, TS, Solidity, Solana
-const outerSkills = TECH_STACK.slice(4);    // Node, FastAPI, Postgres, Docker, Git, Linux
+// Map real skills to dual orbit rings
+// Inner Orbit: HTML, CSS, JavaScript, React, Figma, Canva
+// Outer Orbit: TypeScript, Tailwind, Python, Solidity, Node, FastAPI, Postgres, Docker, Git, Linux
+const innerList = TECH_STACK.slice(0, 6);
+const outerList = TECH_STACK.slice(6);
 
 const orbitalConfigs: SkillConfig[] = [
-  // Inner Orbit (Radius ~110px)
-  ...innerSkills.map((tech, idx) => ({
+  // Inner Orbit (Radius ~120px)
+  ...innerList.map((tech, idx) => ({
     id: tech.id,
-    orbitRadius: 115,
-    size: 44,
-    speed: 0.8,
-    phaseShift: (idx * 2 * Math.PI) / innerSkills.length,
-    glowColor: (idx % 2 === 0 ? "cyan" : "orange") as GlowColor,
+    orbitRadius: 120,
+    size: 42,
+    speed: 0.7,
+    phaseShift: (idx * 2 * Math.PI) / innerList.length,
+    glowColor: (idx % 2 === 0 ? "orange" : "cyan") as GlowColor,
     label: tech.name,
     deviconUrl: tech.deviconUrl,
     item: tech,
   })),
-  // Outer Orbit (Radius ~190px)
-  ...outerSkills.map((tech, idx) => ({
+  // Outer Orbit (Radius ~200px)
+  ...outerList.map((tech, idx) => ({
     id: tech.id,
-    orbitRadius: 195,
+    orbitRadius: 200,
     size: 46,
-    speed: -0.5,
-    phaseShift: (idx * 2 * Math.PI) / outerSkills.length,
+    speed: -0.45,
+    phaseShift: (idx * 2 * Math.PI) / outerList.length,
     glowColor: (idx % 2 === 0 ? "purple" : "cyan") as GlowColor,
     label: tech.name,
     deviconUrl: tech.deviconUrl,
@@ -48,7 +50,7 @@ const orbitalConfigs: SkillConfig[] = [
   })),
 ];
 
-// Memoized Orbiting Skill Item Component
+// Memoized Orbiting Skill Node
 const OrbitingSkillNode = memo(({
   config,
   angle,
@@ -65,9 +67,9 @@ const OrbitingSkillNode = memo(({
   const y = Math.sin(angle) * orbitRadius;
 
   const glowShadowMap = {
-    cyan: "rgba(6, 182, 212, 0.5)",
-    purple: "rgba(147, 51, 234, 0.5)",
-    orange: "rgba(245, 78, 0, 0.5)",
+    cyan: "rgba(6, 182, 212, 0.55)",
+    purple: "rgba(147, 51, 234, 0.55)",
+    orange: "rgba(245, 78, 0, 0.55)",
   };
 
   return (
@@ -88,7 +90,7 @@ const OrbitingSkillNode = memo(({
     >
       <div
         className={`
-          relative w-full h-full p-2.5 bg-[#121418]/90 backdrop-blur-md
+          relative w-full h-full p-2 bg-[#121418]/90 backdrop-blur-md
           rounded-full flex items-center justify-center border border-white/[0.15]
           transition-all duration-300 cursor-pointer
           ${isHovered ? "scale-125 border-orange-400" : "hover:border-white/30"}
@@ -113,7 +115,7 @@ const OrbitingSkillNode = memo(({
 OrbitingSkillNode.displayName = "OrbitingSkillNode";
 
 // Optimized Glow Orbit Path
-const GlowingOrbitPath = memo(({ radius, glowColor = "cyan", animationDelay = 0 }: { radius: number; glowColor?: GlowColor; animationDelay?: number }) => {
+const GlowingOrbitPath = memo(({ radius, glowColor = "cyan" }: { radius: number; glowColor?: GlowColor }) => {
   const glowColors = {
     cyan: {
       primary: "rgba(6, 182, 212, 0.35)",
@@ -142,7 +144,6 @@ const GlowingOrbitPath = memo(({ radius, glowColor = "cyan", animationDelay = 0 
         height: `${radius * 2}px`,
       }}
     >
-      {/* Ambient glowing radial backdrop */}
       <div
         className="absolute inset-0 rounded-full"
         style={{
@@ -150,7 +151,6 @@ const GlowingOrbitPath = memo(({ radius, glowColor = "cyan", animationDelay = 0 
           boxShadow: `0 0 40px ${colors.primary}, inset 0 0 30px ${colors.secondary}`,
         }}
       />
-      {/* Precision hairline ring */}
       <div
         className="absolute inset-0 rounded-full"
         style={{
@@ -197,9 +197,6 @@ export function SkillsSection() {
             Core Skills & Ecosystem
           </h2>
         </div>
-        <p className="text-sm font-mono text-[#9ca3af] max-w-md mt-3 md:mt-0">
-          Planetary tech orbit with genuine brand vectors. Hover on nodes to inspect telemetry.
-        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -209,7 +206,7 @@ export function SkillsSection() {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          {/* Subtle background radial pattern */}
+          {/* Background grid */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
           {/* Central Code Hub Icon with Glow */}
@@ -231,8 +228,8 @@ export function SkillsSection() {
           </div>
 
           {/* Render glowing orbit paths */}
-          <GlowingOrbitPath radius={115} glowColor="orange" />
-          <GlowingOrbitPath radius={195} glowColor="cyan" />
+          <GlowingOrbitPath radius={120} glowColor="orange" />
+          <GlowingOrbitPath radius={200} glowColor="cyan" />
 
           {/* Render orbiting skill icons */}
           {orbitalConfigs.map((config) => {
@@ -251,7 +248,7 @@ export function SkillsSection() {
         {/* Right Column: Grid List of All Skills + Detailed Inspector (5 cols) */}
         <div className="lg:col-span-5 flex flex-col gap-4">
           {/* Active Inspector Card */}
-          <div className="cursor-glass p-6 rounded-2xl border border-white/[0.12] min-h-[160px] flex flex-col justify-center shadow-lg">
+          <div className="cursor-glass p-6 rounded-2xl border border-white/[0.12] min-h-[150px] flex flex-col justify-center shadow-lg">
             {selectedSkill ? (
               <div>
                 <div className="flex items-center justify-between mb-3">
@@ -270,7 +267,7 @@ export function SkillsSection() {
               </div>
             ) : (
               <div className="text-center text-sm font-mono text-[#9ca3af]">
-                Hover or click any planetary node in the orbit to inspect telemetry details.
+                Hover or click any node to view details.
               </div>
             )}
           </div>

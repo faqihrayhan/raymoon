@@ -16,9 +16,6 @@ export function ExperienceSection() {
             Experience & Roles
           </h2>
         </div>
-        <p className="text-sm font-mono text-[#9ca3af] max-w-md mt-3 md:mt-0">
-          Chronological record of autonomous agent deployments, smart contract audits, and systems engineering.
-        </p>
       </div>
 
       <div className="flex flex-col gap-5">
