@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Rayhan (raymoon) — Autonomous AI Agent & Web3 Developer",
+  title: "Faqih Rayhan Fullstack Developer & Web3 Developer",
   description:
     "Portfolio of Rayhan: Shipping autonomous AI agents on Solana, smart contracts on Arc/Foundry, and resilient automation pipelines.",
   keywords: [
